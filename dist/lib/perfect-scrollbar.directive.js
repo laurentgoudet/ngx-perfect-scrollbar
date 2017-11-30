@@ -4,16 +4,18 @@
  */
 import PerfectScrollbar from "perfect-scrollbar";
 import ResizeObserver from "resize-observer-polyfill";
-import { Directive, Input, Output, EventEmitter, HostListener, NgZone, ElementRef, Optional, Inject, KeyValueDiffers } from "@angular/core";
+import { isPlatformBrowser } from "@angular/common";
+import { Directive, Input, Output, EventEmitter, HostListener, NgZone, ElementRef, Optional, Inject, KeyValueDiffers, PLATFORM_ID } from "@angular/core";
 import { Geometry, Position } from "./perfect-scrollbar.interfaces";
 import { PERFECT_SCROLLBAR_CONFIG } from "./perfect-scrollbar.interfaces";
 import { PerfectScrollbarConfig } from "./perfect-scrollbar.interfaces";
 var PerfectScrollbarDirective = (function () {
-    function PerfectScrollbarDirective(zone, elementRef, differs, defaults) {
+    function PerfectScrollbarDirective(zone, elementRef, differs, defaults, platformId) {
         this.zone = zone;
         this.elementRef = elementRef;
         this.differs = differs;
         this.defaults = defaults;
+        this.platformId = platformId;
         this.disabled = false;
         this.PS_SCROLL_Y = new EventEmitter();
         this.PS_SCROLL_X = new EventEmitter();
@@ -133,7 +135,7 @@ var PerfectScrollbarDirective = (function () {
      */
     function () {
         var _this = this;
-        if (!this.disabled) {
+        if (!this.disabled && isPlatformBrowser(this.platformId)) {
             var /** @type {?} */ config_1 = new PerfectScrollbarConfig(this.defaults);
             config_1.assign(this.config); // Custom configuration
             this.zone.runOutsideAngular(function () {
@@ -462,6 +464,7 @@ var PerfectScrollbarDirective = (function () {
         { type: ElementRef, },
         { type: KeyValueDiffers, },
         { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [PERFECT_SCROLLBAR_CONFIG,] },] },
+        { type: Object, decorators: [{ type: Inject, args: [PLATFORM_ID,] },] },
     ]; };
     PerfectScrollbarDirective.propDecorators = {
         "disabled": [{ type: Input },],
@@ -540,5 +543,7 @@ function PerfectScrollbarDirective_tsickle_Closure_declarations() {
     PerfectScrollbarDirective.prototype.differs;
     /** @type {?} */
     PerfectScrollbarDirective.prototype.defaults;
+    /** @type {?} */
+    PerfectScrollbarDirective.prototype.platformId;
 }
 //# sourceMappingURL=perfect-scrollbar.directive.js.map

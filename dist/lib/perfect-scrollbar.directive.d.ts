@@ -6,6 +6,7 @@ export declare class PerfectScrollbarDirective implements OnInit, OnDestroy, DoC
     elementRef: ElementRef;
     private differs;
     private defaults;
+    private platformId;
     private ro;
     private instance;
     private timeout;
@@ -33,7 +34,7 @@ export declare class PerfectScrollbarDirective implements OnInit, OnDestroy, DoC
     psReachStartY(event: any): any;
     psReachEndX(event: any): any;
     psReachStartX(event: any): any;
-    constructor(zone: NgZone, elementRef: ElementRef, differs: KeyValueDiffers, defaults: PerfectScrollbarConfigInterface);
+    constructor(zone: NgZone, elementRef: ElementRef, differs: KeyValueDiffers, defaults: PerfectScrollbarConfigInterface, platformId: Object);
     ngOnInit(): void;
     ngOnDestroy(): void;
     ngDoCheck(): void;

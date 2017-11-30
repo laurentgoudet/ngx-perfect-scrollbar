@@ -1,9 +1,9 @@
 import { Subject as Subject$1 } from 'rxjs/Subject';
 import { distinctUntilChanged } from 'rxjs/operators';
-import { ChangeDetectorRef, Component, Directive, ElementRef, EventEmitter, HostBinding, HostListener, Inject, InjectionToken, Input, KeyValueDiffers, NgModule, NgZone, Optional, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, Directive, ElementRef, EventEmitter, HostBinding, HostListener, Inject, InjectionToken, Input, KeyValueDiffers, NgModule, NgZone, Optional, Output, PLATFORM_ID, ViewChild, ViewEncapsulation } from '@angular/core';
 import PerfectScrollbar from 'perfect-scrollbar';
 import ResizeObserver from 'resize-observer-polyfill';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 /**
  * @fileoverview added by tsickle
@@ -58,11 +58,12 @@ var PerfectScrollbarConfig = (function () {
  * @suppress {checkTypes} checked by tsc
  */
 var PerfectScrollbarDirective = (function () {
-    function PerfectScrollbarDirective(zone, elementRef, differs, defaults) {
+    function PerfectScrollbarDirective(zone, elementRef, differs, defaults, platformId) {
         this.zone = zone;
         this.elementRef = elementRef;
         this.differs = differs;
         this.defaults = defaults;
+        this.platformId = platformId;
         this.disabled = false;
         this.PS_SCROLL_Y = new EventEmitter();
         this.PS_SCROLL_X = new EventEmitter();
@@ -182,7 +183,7 @@ var PerfectScrollbarDirective = (function () {
      */
     function () {
         var _this = this;
-        if (!this.disabled) {
+        if (!this.disabled && isPlatformBrowser(this.platformId)) {
             var /** @type {?} */ config_1 = new PerfectScrollbarConfig(this.defaults);
             config_1.assign(this.config); // Custom configuration
             this.zone.runOutsideAngular(function () {
@@ -511,6 +512,7 @@ var PerfectScrollbarDirective = (function () {
         { type: ElementRef, },
         { type: KeyValueDiffers, },
         { type: undefined, decorators: [{ type: Optional }, { type: Inject, args: [PERFECT_SCROLLBAR_CONFIG,] },] },
+        { type: Object, decorators: [{ type: Inject, args: [PLATFORM_ID,] },] },
     ]; };
     PerfectScrollbarDirective.propDecorators = {
         "disabled": [{ type: Input },],
