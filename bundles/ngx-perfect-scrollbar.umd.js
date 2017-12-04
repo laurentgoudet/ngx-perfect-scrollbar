@@ -5,7 +5,7 @@
 }(this, (function (exports,Subject,operators,core,common) { 'use strict';
 
 /*!
- * perfect-scrollbar v1.2.0
+ * perfect-scrollbar v1.3.0
  * (c) 2017 Hyunje Jun
  * @license MIT
  */
@@ -30,12 +30,13 @@ function div(className) {
   return div;
 }
 
-function matches(element, query) {
-  var elMatches =
-    Element.prototype.matches ||
+var elMatches =
+  typeof Element !== 'undefined' &&
+  (Element.prototype.matches ||
     Element.prototype.webkitMatchesSelector ||
-    Element.prototype.msMatchesSelector;
+    Element.prototype.msMatchesSelector);
 
+function matches(element, query) {
   if (!elMatches) {
     throw new Error('No element matching method supported');
   }
@@ -305,13 +306,18 @@ function outerWidth(element) {
 }
 
 var env = {
-  isWebKit: typeof document !== 'undefined' && 'WebkitAppearance' in document.documentElement.style,
+  isWebKit:
+    typeof document !== 'undefined' &&
+    'WebkitAppearance' in document.documentElement.style,
   supportsTouch:
     typeof window !== 'undefined' &&
     ('ontouchstart' in window ||
       (window.DocumentTouch && document instanceof window.DocumentTouch)),
-  supportsIePointer: typeof navigator !== 'undefined' && navigator.msMaxTouchPoints,
-  isChrome: typeof navigator !== 'undefined' && /Chrome/i.test(navigator && navigator.userAgent),
+  supportsIePointer:
+    typeof navigator !== 'undefined' && navigator.msMaxTouchPoints,
+  isChrome:
+    typeof navigator !== 'undefined' &&
+    /Chrome/i.test(navigator && navigator.userAgent),
 };
 
 var updateGeometry = function(i) {
